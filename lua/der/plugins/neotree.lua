@@ -72,7 +72,7 @@ return {
 					-- indent_marker = "│",
 					-- last_indent_marker = "└",
 					indent_marker = "..",
-					last_indent_marker = "..",
+					last_indent_marker = ".. ",
 					highlight = "NeoTreeIndentMarker",
 					expander_collapsed = "",
 					expander_expanded = "",
@@ -101,13 +101,13 @@ return {
 				--     },
 				-- },
 				icon = {
-					folder_closed = "",           -- No icon for closed folders
-					folder_open = "",             -- No icon for open folders
-					folder_empty = "",            -- No icon for empty folders
-					default = "",                 -- No icon for files
+					folder_closed = "", -- No icon for closed folders
+					folder_open = "", -- No icon for open folders
+					folder_empty = "", -- No icon for empty folders
+					default = "",  -- No icon for files
 				},
 				git_status = {
-					symbols = {           -- Remove Git symbols
+					symbols = { -- Remove Git symbols
 						added = "",
 						modified = "",
 						deleted = "",
@@ -279,7 +279,7 @@ return {
 						{
 							"file_size",
 							zindex = 20,
-							align = "left",               -- Align to the right
+							align = "left", -- Align to the right
 						},
 						-- {
 						--     "type",
@@ -288,7 +288,7 @@ return {
 						-- },
 						{
 							"last_modified",
-							align = "left",               -- Align to the right
+							align = "left", -- Align to the right
 						},
 						{ "indent" },
 						{
@@ -302,7 +302,7 @@ return {
 						{ "owner",        zindex = 10 },
 						{
 							"file_size",
-							align = "left",               -- Align to the right
+							align = "left", -- Align to the right
 						},
 						-- {
 						--     "type",
@@ -311,7 +311,7 @@ return {
 						-- },
 						{
 							"last_modified",
-							align = "left",               -- Align to the right
+							align = "left", -- Align to the right
 						},
 						{ "indent" },
 						{
@@ -328,7 +328,7 @@ return {
 				follow_current_file = { enabled = true, leave_dirs_open = true },
 				group_empty_dirs = false,
 				-- hijack_netrw_behavior = "disabled", -- to set "open_default"
-				hijack_netrw_behavior = "open_current",         -- to set "open_default"
+				hijack_netrw_behavior = "open_current", -- to set "open_default"
 				use_libuv_file_watcher = true,
 				window = {
 					-- position = "left",

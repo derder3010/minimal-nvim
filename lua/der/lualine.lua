@@ -52,51 +52,48 @@ local function ins_left(component)
 end
 
 local function ins_right(component)
-	table.insert(config.sections.lualine_x, component)
+	table.insert(config.sections.lualine_c, component)
 end
-
 
 ins_left {
 	function()
 		local mode_map = {
-			['n'] = 'NOR',
-			['i'] = 'INS',
-			['v'] = 'VIS',
+			['n'] = 'N',
+			['i'] = 'I',
+			['v'] = 'V',
 			['V'] = 'V-L',
-			[''] = 'V-B', -- This is Ctrl-V
-			['c'] = 'CMD',
-			['R'] = 'REP',
-			['s'] = 'SEL',
+			[''] = 'V-B',
+			['c'] = 'C',
+			['R'] = 'R',
+			['s'] = 'S',
 			['S'] = 'S-L',
-			[''] = 'S-B', -- This is Ctrl-S
-			['t'] = 'TER',
+			[''] = 'S-B',
+			['t'] = 'T',
 		}
 
 		local current_mode = vim.fn.mode()
 		return mode_map[current_mode] or current_mode
 	end,
-	padding = { right = 1 },
+	padding = { left = 1 },
 }
 
 ins_left {
 	function()
-		local full_path = vim.fn.expand('%:p:h')
+		local full_path = vim.fn.expand('%:p')
 		full_path = full_path:gsub(vim.env.HOME, "~")
+		if vim.bo.modified then
+			return full_path .. " [+]"
+		end
 		return full_path
 	end,
 	cond = conditions.buffer_not_empty,
 }
-
 
 ins_left {
 	'filesize',
 	cond = conditions.buffer_not_empty,
 
 }
-
-
-
-ins_left { 'location' }
 
 ins_left {
 	'progress',
@@ -108,25 +105,13 @@ ins_left {
 ins_left {
 	'diagnostics',
 	sources = { 'nvim_diagnostic' },
-	symbols = { error = 'E ', warn = 'W ', info = 'I ' },
+	symbols = { error = 'E-', warn = 'W-', info = 'I-' },
 	diagnostics_color = {
 		error = { fg = colors.fg },
 		warn = { fg = colors.fg },
 		info = { fg = colors.fg }
 	}
 }
-
-ins_left {
-	function()
-		return '%='
-	end,
-}
-
-ins_left {
-	'filename',
-	cond = conditions.buffer_not_empty,
-}
-
 
 ins_right {
 	function()
@@ -154,18 +139,12 @@ ins_right {
 ins_right {
 	function()
 		local indent = vim.api.nvim_get_option_value("shiftwidth", {})
-		local is_spaces = vim.api.nvim_get_option_value("expandtab", {}) and "spaces" or "tabs"
-		return string.format("->|%d %s", indent, is_spaces)
+		local is_spaces = vim.api.nvim_get_option_value("expandtab", {}) and "sps" or "tbs"
+		return string.format("%d%s", indent, is_spaces)
 	end,
 	cond = conditions.buffer_not_empty,
 }
 
-
-ins_right {
-	'filetype',
-	icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-	color = { fg = colors.magenta },
-}
 
 ins_right {
 	'branch',

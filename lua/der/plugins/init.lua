@@ -8,7 +8,7 @@ return {
 	{
 		'nvim-lualine/lualine.nvim',
 	},
-	-- { "RRethy/vim-illuminate", event = "VeryLazy" },
+	{ "RRethy/vim-illuminate", event = "VeryLazy" },
 	'windwp/nvim-ts-autotag',
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
@@ -24,5 +24,9 @@ return {
 	{
 		"blazkowolf/gruber-darker.nvim",
 	},
+	{
+		"j-hui/fidget.nvim",
+		branch = "main", -- ensures you're using the latest version
+	}
 
 }

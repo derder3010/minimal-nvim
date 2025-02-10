@@ -25,7 +25,8 @@ vim.api.nvim_set_keymap("n", ";", ":", { noremap = true, silent = false })
 -- Chuyển sang tab tiếp theo
 vim.keymap.set("n", "<tab>", '<cmd>BufferLineCycleNext<CR>')
 
-vim.keymap.set("n", "<C-w>", '<cmd>bdelete<CR>')
+vim.keymap.set("n", "<C-w>", '<cmd>bdelete!<CR>')
+vim.keymap.set("n", "<leader>b", ":enew<CR>")
 
 
 vim.g.VM_maps = {

@@ -78,3 +78,5 @@ vim.api.nvim_set_hl(0, "Whitespace", { fg = "#4C566A", bg = "NONE", nocombine = 
 vim.api.nvim_set_hl(0, "NonText", { fg = "#4C566A", bg = "NONE", nocombine = true })
 
 vim.opt.pumheight = 10
+
+vim.o.title = true

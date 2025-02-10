@@ -6,13 +6,13 @@ require("der.cmd")
 
 -- ColorScheme
 vim.cmd("colorscheme gruber-darker")
-vim.cmd("au ColorScheme * hi Normal ctermbg=none guibg=none")
-vim.cmd("au ColorScheme * hi NormalFloat ctermbg=none guibg=none")
-vim.cmd("au ColorScheme * hi SignColumn ctermbg=none guibg=none")
-vim.cmd("au ColorScheme * hi NormalNC ctermbg=none guibg=none")
-vim.cmd("au ColorScheme * hi MsgArea ctermbg=none guibg=none")
-vim.cmd("au ColorScheme * hi TelescopeBorder ctermbg=none guibg=none")
-vim.cmd("au ColorScheme * hi NvimTreeNormal ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi Normal ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi NormalFloat ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi SignColumn ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi NormalNC ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi MsgArea ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi TelescopeBorder ctermbg=none guibg=none")
+-- vim.cmd("au ColorScheme * hi NvimTreeNormal ctermbg=none guibg=none")
 vim.cmd("doautocmd ColorScheme")
 
 require("markview").setup({
@@ -70,6 +70,7 @@ require('nvim-ts-autotag').setup({
 	}
 })
 
+
 require("fzf-lua").setup({
 	winopts = {
 		height = 0.3,                  -- Small height, like Doom Emacs
@@ -96,4 +97,12 @@ require("fzf-lua").setup({
 		},
 		fd_opts = "--hidden --no-ignore", -- Show hidden & dotfiles
 	},
+})
+
+require("fidget").setup({
+	-- options = {
+	-- 	window = {
+	-- 		winblend = 20, -- Increase this value for more transparency (0 = opaque, 100 = fully transparent)
+	-- 	},
+	-- }
 })
