@@ -1,14 +1,9 @@
 return {
 	'nvim-lua/plenary.nvim',
 	{
-		'windwp/nvim-autopairs',
-		event = "InsertEnter",
-		config = true
-	},
-	{
 		'nvim-lualine/lualine.nvim',
 	},
-	{ "RRethy/vim-illuminate", event = "VeryLazy" },
+	{ "RRethy/vim-illuminate",  event = "VeryLazy" },
 	'windwp/nvim-ts-autotag',
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
@@ -27,6 +22,17 @@ return {
 	{
 		"j-hui/fidget.nvim",
 		branch = "main", -- ensures you're using the latest version
-	}
-
+	},
+	{
+		"ashen-org/ashen.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			style = {
+				bold = false,
+				italic = false,
+			},
+		},
+	},
+	{ 'nvim-tree/nvim-tree.lua' }
 }

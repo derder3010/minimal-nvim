@@ -3,9 +3,11 @@ require("der.lazy_init")
 require("der.set")
 require("der.lualine")
 require("der.cmd")
+require("der.python")
 
 -- ColorScheme
-vim.cmd("colorscheme gruber-darker")
+-- vim.cmd("colorscheme gruber-darker")
+vim.cmd("colorscheme ashen")
 -- vim.cmd("au ColorScheme * hi Normal ctermbg=none guibg=none")
 -- vim.cmd("au ColorScheme * hi NormalFloat ctermbg=none guibg=none")
 -- vim.cmd("au ColorScheme * hi SignColumn ctermbg=none guibg=none")
@@ -13,7 +15,7 @@ vim.cmd("colorscheme gruber-darker")
 -- vim.cmd("au ColorScheme * hi MsgArea ctermbg=none guibg=none")
 -- vim.cmd("au ColorScheme * hi TelescopeBorder ctermbg=none guibg=none")
 -- vim.cmd("au ColorScheme * hi NvimTreeNormal ctermbg=none guibg=none")
-vim.cmd("doautocmd ColorScheme")
+-- vim.cmd("doautocmd ColorScheme")
 
 require("markview").setup({
 	preview = {
@@ -82,6 +84,7 @@ require("fzf-lua").setup({
 	},
 	fzf_opts = {
 		["--no-scrollbar"] = true, -- Optional: Hide scrollbar like Doom Emacs
+		fzf_colors = false,
 	},
 
 	files = {
@@ -105,4 +108,26 @@ require("fidget").setup({
 	-- 		winblend = 20, -- Increase this value for more transparency (0 = opaque, 100 = fully transparent)
 	-- 	},
 	-- }
+})
+
+require("nvim-tree").setup({
+	hijack_netrw = false,
+	sort = {
+		sorter = "case_sensitive",
+	},
+	view = {
+		width = 30,
+	},
+	renderer = {
+		icons = {
+			show = {
+				file = false,
+				-- folder = false,
+				folder_arrow = false
+			}
+		},
+	},
+	filters = {
+		dotfiles = false,
+	},
 })

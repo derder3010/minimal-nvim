@@ -7,6 +7,9 @@ local M = {
 			event = "InsertEnter",
 		},
 		{
+			"hrsh7th/cmp-nvim-lsp-signature-help",
+		},
+		{
 			"hrsh7th/cmp-emoji",
 			event = "InsertEnter",
 		},
@@ -137,23 +140,12 @@ function M.config()
 			end,
 			duplicates_default = 0,
 		},
-		sources = {
-			{
-				name = "nvim_lsp",
-				group_index = 2,
-				entry_filter = function(entry)
-					return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
-				end
-			},
-			{
-				name = "buffer",
-				group_index = 2,
-				option = {
-					get_bufnrs = function() return { vim.api.nvim_get_current_buf() } end,
-					keyword_length = 3
-				}
-			},
-			{ name = "luasnip",     group_index = 2 },
+		sources = cmp.config.sources({
+			{ name = "nvim_lsp" },
+			{ name = "luasnip" },              -- For luasnip users.
+			{ name = "nvim_lsp_signature_help" }, -- function arg popups while typing
+		}, {
+			{ name = "buffer" },
 			{ name = "cmp_tabnine", group_index = 2 },
 			{ name = "path",        group_index = 2 },
 			{ name = "nvim_lua",    group_index = 2 },
@@ -162,7 +154,7 @@ function M.config()
 			{ name = "treesitter",  group_index = 2 },
 			{ name = "crates",      group_index = 2 },
 
-		},
+		}),
 		sorting = {
 			priority_weight = 2.0,
 			comparators = {

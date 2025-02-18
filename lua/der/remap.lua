@@ -1,11 +1,12 @@
 vim.g.mapleader = " "
 -- vim.keymap.set("n", "<leader><space>", vim.cmd.Ex)
 -- vim.cmd([[nnoremap \ :Ex<cr>]])
-vim.keymap.set("n", "<leader>e", "<cmd>lua require('fzf-lua').files({ cwd = vim.fn.expand('%:p:h') })<CR>",
-	{ noremap = true, silent = true })
+vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeOpen<CR>")
+-- vim.keymap.set("n", "<leader>e", "<cmd>lua require('fzf-lua').files({ cwd = vim.fn.expand('%:p:h') })<CR>",
+-- 	{ noremap = true, silent = true })
 vim.keymap.set("n", "<leader>f", "<cmd>lua require('fzf-lua').live_grep()<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>/", "<cmd>FzfLua files<cr>", { desc = "Find Files (Bottom)" })
-vim.keymap.set("n", "<leader><space>", "<cmd>Neotree bottom reveal_force_cwd<cr>")
+vim.keymap.set("n", "<leader><space>", "<cmd>FzfLua files<cr>", { desc = "Find Files (Bottom)" })
+vim.keymap.set("n", "<leader>/", "<cmd>Neotree bottom reveal_force_cwd<cr>")
 vim.cmd([[nnoremap  \ :Neotree current<cr>]])
 vim.keymap.set("n", "<leader>l", "<cmd>Lazy<cr>")
 vim.keymap.set("n", "<leader>m", "<cmd>Mason<cr>")
@@ -48,11 +49,14 @@ vim.keymap.set('v', '<S-Tab>', '<')
 
 
 -- Resize splits using Ctrl + Arrow Keys
-vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', { desc = 'Resize split up' })
-vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', { desc = 'Resize split down' })
-vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { desc = 'Resize split left' })
-vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { desc = 'Resize split right' })
-
+-- vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', { desc = 'Resize split up' })
+-- vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', { desc = 'Resize split down' })
+-- vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { desc = 'Resize split left' })
+-- vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { desc = 'Resize split right' })
+vim.keymap.set("n", "=", [[<cmd>vertical resize +5<cr>]])   -- make the window biger vertically
+vim.keymap.set("n", "-", [[<cmd>vertical resize -5<cr>]])   -- make the window smaller vertically
+vim.keymap.set("n", "+", [[<cmd>horizontal resize +2<cr>]]) -- make the window bigger horizontally by pressing shift and =
+vim.keymap.set("n", "_", [[<cmd>horizontal resize -2<cr>]]) -- make the window smaller horizontally by pressing shift and -
 
 local function wrap_mode(mode)
 	vim.keymap.set(mode, '<Left>', function()

@@ -37,15 +37,9 @@ return {
 	branch = "v3.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		-- "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 		"MunifTanjim/nui.nvim",
 	},
 	config = function()
-		-- vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-		-- vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-		-- vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-		-- vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
-
 		require("neo-tree").setup({
 			lazy = false,
 			close_if_last_window = false,
@@ -58,19 +52,12 @@ return {
 			use_popups_for_input = false,
 			-- hide_root_node = true,
 			enable_cursor_hijack = true,
-			-- source_selector = {
-			--     winbar = false,                        -- toggle to show selector on winbar
-			--     statusline = true,                     -- toggle to show selector on statusline
-			--     show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
-			-- },
 			default_component_configs = {
 				container = { enable_character_fade = true },
 				indent = {
 					indent_size = 2,
 					padding = 0,
 					with_markers = true,
-					-- indent_marker = "│",
-					-- last_indent_marker = "└",
 					indent_marker = "..",
 					last_indent_marker = ".. ",
 					highlight = "NeoTreeIndentMarker",
@@ -78,28 +65,7 @@ return {
 					expander_expanded = "",
 					expander_highlight = "NeoTreeExpander",
 				},
-				-- icon = {
-				--     folder_closed = "",
-				--     folder_open = "",
-				--     folder_empty = "󰜌",
-				--     default = "*",
-				--     highlight = "NeoTreeFileIcon",
-				-- },
-				-- modified = { symbol = "[+]", highlight = "NeoTreeModified" },
 				name = { trailing_slash = false, use_git_status_colors = true, highlight = "NeoTreeFileName" },
-				-- git_status = {
-				--     symbols = {
-				--         added = "",
-				--         modified = "",
-				--         deleted = "✖",
-				--         renamed = "󰁕",
-				--         untracked = "",
-				--         ignored = "",
-				--         unstaged = "󰄱",
-				--         staged = "",
-				--         conflict = "",
-				--     },
-				-- },
 				icon = {
 					folder_closed = "", -- No icon for closed folders
 					folder_open = "", -- No icon for open folders
@@ -140,18 +106,18 @@ return {
 				mappings = {
 					["<space>"] = { "toggle_node", nowait = false },
 					["<2-LeftMouse>"] = "open",
-					-- ["<cr>"] = "open",
-					["<cr>"] = function(state)
-						local node = state.tree:get_node()
-
-						if node.type == "directory" then
-							-- If it's a directory, set it as the root
-							require("neo-tree.sources.filesystem").navigate(state, node.id)
-						else
-							-- If it's a file, open it
-							require("neo-tree.utils").open_file(state, node.path)
-						end
-					end,
+					["<cr>"] = "open",
+					-- ["<cr>"] = function(state)
+					-- 	local node = state.tree:get_node()
+					--
+					-- 	if node.type == "directory" then
+					-- 		-- If it's a directory, set it as the root
+					-- 		require("neo-tree.sources.filesystem").navigate(state, node.id)
+					-- 	else
+					-- 		-- If it's a file, open it
+					-- 		require("neo-tree.utils").open_file(state, node.path)
+					-- 	end
+					-- end,
 					["<esc>"] = "cancel",
 					["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
 					["S"] = "open_split",
@@ -214,11 +180,7 @@ return {
 						return {
 							text = string.format("%s",
 								format_permissions(stat.mode)
-							-- stat.nlink or 1, -- Number of hard links
-							-- get_username(stat.uid)
-							-- get_groupname(stat.gid) or "Unknown"
 							),
-							-- text = format_permissions(stat.mode),
 							highlight = highlights.FILE_STATS,
 						}
 					end,
@@ -236,9 +198,6 @@ return {
 						end
 
 						return {
-							-- text = string.format("%d",
-							--     stat.nlink or 1 -- Number of hard links
-							-- ),
 							text = vim.fn.printf("%" .. perm_width .. "d  ",
 								stat.nlink or 1),
 
@@ -260,14 +219,22 @@ return {
 
 
 						return {
-							-- text = string.format("%s",
-							--     get_username(stat.uid)
-							-- ),
 							text = vim.fn.printf("%" .. perm_width .. "s  ",
 								truncate_string(get_username(stat.uid), perm_width)),
 							highlight = highlights.FILE_STATS,
 						}
-					end
+					end,
+
+					name2 = function(config, node, state)
+						if node.type == 'directory' then
+							return {
+								text = node.name, -- Avoid infinite recursion
+							}
+						end
+						return {
+							text = node.path,
+						}
+					end,
 
 
 				},
@@ -281,11 +248,6 @@ return {
 							zindex = 20,
 							align = "left", -- Align to the right
 						},
-						-- {
-						--     "type",
-						--     zindex = 10,
-						--     align = "left", -- Align to the left
-						-- },
 						{
 							"last_modified",
 							align = "left", -- Align to the right
@@ -304,11 +266,6 @@ return {
 							"file_size",
 							align = "left", -- Align to the right
 						},
-						-- {
-						--     "type",
-						--     zindex = 10,
-						--     align = "left", -- Align to the left
-						-- },
 						{
 							"last_modified",
 							align = "left", -- Align to the right
@@ -319,12 +276,16 @@ return {
 						}
 					}
 				},
+				async_directory_scan = "always",
 				filtered_items = {
-					visible = false,
+					visible = true,
 					hide_dotfiles = false,
 					hide_gitignored = false,
 					hide_hidden = false,
+					hide_by_name = {}, -- Ensure no files are hidden
+					hide_by_pattern = {}, -- Show everything
 				},
+				scan_mode = "deep",
 				follow_current_file = { enabled = true, leave_dirs_open = true },
 				group_empty_dirs = false,
 				-- hijack_netrw_behavior = "disabled", -- to set "open_default"
@@ -367,28 +328,10 @@ return {
 						print(args.source, " moved to ", args.destination)
 					end
 				},
-				-- {
-				--     event = "neo_tree_buffer_enter",
-				--     handler = function()
-				--         vim.cmd("highlight! Cursor blend=100")
-				--     end,
-				-- },
-				-- {
-				--     event = "neo_tree_buffer_leave",
-				--     handler = function()
-				--         vim.cmd("highlight! Cursor guibg=#5f87af blend=0")
-				--     end,
-				-- },
-				-- {
-				--     event = "file_opened",
-				--     handler = function()
-				--         require("neo-tree.sources.filesystem").reset_search()
-				--     end
-				-- },
 			},
 			buffers = {
 				follow_current_file = { enabled = true, leave_dirs_open = false },
-				group_empty_dirs = true,
+				group_empty_dirs = false,
 				show_unloaded = true,
 				window = { mappings = { ["bd"] = "buffer_delete", ["<bs>"] = "navigate_up", ["."] = "set_root" } },
 			},
@@ -407,6 +350,5 @@ return {
 				},
 			},
 		})
-		-- vim.cmd([[nnoremap \ :Neotree float<cr>]])
 	end,
 }

@@ -1,63 +1,279 @@
 return {
-    {
-        -- LSP
-        {
-            'neovim/nvim-lspconfig',
-            event = { 'BufReadPre', 'BufNewFile' },
-            dependencies = {
-                "williamboman/mason-lspconfig.nvim",
-                "stevearc/conform.nvim",
-            },
-            config = function()
-                local capabilities = require('cmp_nvim_lsp').default_capabilities()
-                local lsp_defaults = require('lspconfig').util.default_config
+	{
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup({
+				PATH = "prepend",
+			})
+		end,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		config = function()
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"bashls",
+					"lua_ls",
+					"rust_analyzer",
+					"gopls",
+					"templ",
+					"html",
+					"cssls",
+					"emmet_language_server",
+					"htmx",
+					"tailwindcss",
+					"ts_ls",
+					-- "tsserver",
+					-- "pylsp",
+					"pyright",
+					"clangd",
+					"prismals",
+					"yamlls",
+					"jsonls",
+					"eslint",
+					-- "hls",
+					"zls",
+					"marksman",
+					"sqlls",
+					"wgsl_analyzer",
+					"texlab",
+					"intelephense",
+					"nim_langserver",
+					"zls",
+				},
+			})
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-                -- Add cmp_nvim_lsp capabilities settings to lspconfig
-                -- This should be executed before you configure any language server
-                lsp_defaults.capabilities = vim.tbl_deep_extend(
-                    'force',
-                    lsp_defaults.capabilities,
-                    require('cmp_nvim_lsp').default_capabilities()
-                )
+			local lspconfig = require("lspconfig")
 
-                -- LspAttach is where you enable features that only work
-                -- if there is a language server active in the file
-                vim.api.nvim_create_autocmd('LspAttach', {
-                    desc = 'LSP actions',
-                    callback = function(event)
-                        local opts = { buffer = event.buf }
+			lspconfig.nil_ls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.rust_analyzer.setup({
+				capabilities = capabilities,
+			})
 
-                        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-                        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-                        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-                        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-                        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-                        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-                        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-                        vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-                        vim.keymap.set({ 'n', 'x' }, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-                        vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-                    end,
-                })
+			lspconfig.sqlls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.intelephense.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.texlab.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.zls.setup({
+				capabilities = capabilities,
+				cmd = { "zls" },
+			})
+			lspconfig.hls.setup({
+				capabilities = capabilities,
+				single_file_support = true,
+			})
+			lspconfig.bashls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.lua_ls.setup({
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" }, -- Recognize 'vim' as a global variable
+						},
+						workspace = {
+							library = vim.api.nvim_get_runtime_file("", true), -- Include Neovim runtime files
+						},
+						telemetry = {
+							enable = false,
+						},
+					},
+				},
+			})
+			lspconfig.wgsl_analyzer.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.jsonls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.gopls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.cssls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.prismals.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.yamlls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.html.setup({
+				capabilities = capabilities,
+				filetypes = {
+					"templ",
+					"html",
+					"php",
+					"css",
+					"javascriptreact",
+					"typescriptreact",
+					"javascript",
+					"typescript",
+					"jsx",
+					"tsx",
+				},
+			})
+			lspconfig.htmx.setup({
+				capabilities = capabilities,
+				filetypes = { "html", "templ" },
+			})
+			lspconfig.emmet_language_server.setup({
+				capabilities = capabilities,
+				filetypes = {
+					"templ",
+					"html",
+					"css",
+					"php",
+					"javascriptreact",
+					"typescriptreact",
+					"javascript",
+					"typescript",
+					"jsx",
+					"tsx",
+					"markdown",
+				},
+			})
+			lspconfig.tailwindcss.setup({
+				capabilities = capabilities,
+				filetypes = {
+					"templ",
+					"html",
+					"css",
+					"javascriptreact",
+					"typescriptreact",
+					"javascript",
+					"typescript",
+					"jsx",
+					"tsx",
+				},
+				root_dir = require("lspconfig").util.root_pattern(
+					"tailwind.config.js",
+					"tailwind.config.cjs",
+					"tailwind.config.mjs",
+					"tailwind.config.ts",
+					"postcss.config.js",
+					"postcss.config.cjs",
+					"postcss.config.mjs",
+					"postcss.config.ts",
+					"package.json",
+					"node_modules",
+					".git"
+				),
+			})
+			lspconfig.templ.setup({
+				capabilities = capabilities,
+				filetypes = { "templ" },
+			})
+			local configs = require("lspconfig.configs")
 
-                require('mason-lspconfig').setup_handlers({
-                    function(server_name)
-                        require('lspconfig')[server_name].setup({
-                            capabilities = require('cmp_nvim_lsp').default_capabilities()
-                        })
-                    end,
-                    -- Add server-specific configurations here if needed
-                    ["lua_ls"] = function()
-                        require('lspconfig').lua_ls.setup({
-                            settings = {
-                                Lua = {
-                                    diagnostics = { globals = { 'vim' } }
-                                }
-                            }
-                        })
-                    end
-                })
-            end,
-        }
-    }
+			if not configs.ts_ls then
+				configs.ts_ls = {
+					default_config = {
+						cmd = { "typescript-language-server", "--stdio" },
+						capabilties = capabilities,
+						filetypes = {
+							"javascript",
+							"javascriptreact",
+							"typescript",
+							"typescriptreact",
+							"html",
+						},
+						root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", ".git"),
+						-- single_file_support = true,
+					},
+				}
+			end
+			lspconfig.ts_ls.setup({
+				-- capabilties = capabilities,
+			})
+			lspconfig.eslint.setup({
+				capabilties = capabilities,
+			})
+
+			require("lspconfig").clangd.setup({
+				cmd = {
+					"clangd",
+					"--background-index",
+					"--pch-storage=memory",
+					"--all-scopes-completion",
+					"--pretty",
+					"--header-insertion=never",
+					"-j=4",
+					"--inlay-hints",
+					"--header-insertion-decorators",
+					"--function-arg-placeholders",
+					"--completion-style=detailed",
+				},
+				filetypes = { "c", "cpp", "objc", "objcpp" },
+				root_dir = require("lspconfig").util.root_pattern("src"),
+				init_option = { fallbackFlags = { "-std=c++2a" } },
+				capabilities = capabilities,
+				single_file_support = true,
+			})
+
+			local util = require 'lspconfig.util'
+
+			lspconfig.pyright.setup({
+				capabilities = capabilities,
+				root_dir = function(fname)
+					return util.root_pattern('pyproject.toml', 'setup.py', 'requirements.txt', '.git')(fname)
+				end,
+				on_init = function(client)
+					local cwd = vim.fn.getcwd()
+
+					-- List of common virtual environment folders
+					local venv_paths = {
+						cwd .. "/.venv/bin/python3",
+						cwd .. "/venv/bin/python3",
+						cwd .. "/env/bin/python3",
+						cwd .. "/.virtualenv/bin/python3",
+						cwd .. "/virtualenv/bin/python3",
+						vim.fn.trim(vim.fn.system("pipenv --venv")) .. "/bin/python3",
+						vim.fn.trim(vim.fn.system("poetry env info -p")) .. "/bin/python3",
+					}
+
+					for _, python_path in ipairs(venv_paths) do
+						if vim.fn.filereadable(python_path) == 1 then
+							client.config.settings.python.pythonPath = python_path
+							client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+							return
+						end
+					end
+				end,
+				settings = {
+					python = {
+						analysis = {
+							autoSearchPaths = true,
+							useLibraryCodeForTypes = true,
+							diagnosticMode = "workspace",
+						},
+					},
+				},
+			})
+
+			lspconfig.marksman.setup({
+				capabilties = capabilities,
+			})
+			lspconfig.gleam.setup({
+				capabilties = capabilities,
+			})
+			lspconfig.nim_langserver.setup({
+				capabilties = capabilities,
+			})
+		end,
+	},
 }

@@ -1,7 +1,8 @@
 local lualine = require('lualine')
 
 local colors = {
-	bg = '#202328',
+	-- bg = '#202328',
+	bg = '#000000',
 	fg = '#bbc2cf',
 }
 
@@ -58,17 +59,45 @@ end
 ins_left {
 	function()
 		local mode_map = {
-			['n'] = 'N',
-			['i'] = 'I',
-			['v'] = 'V',
-			['V'] = 'V-L',
-			[''] = 'V-B',
-			['c'] = 'C',
-			['R'] = 'R',
-			['s'] = 'S',
-			['S'] = 'S-L',
-			[''] = 'S-B',
-			['t'] = 'T',
+			['n']   = 'NORMAL',
+			['no']  = 'O-PENDING',
+			['nov'] = 'O-PENDING V',
+			['noV'] = 'O-PENDING V-L',
+			['no'] = 'O-PENDING V-B',
+			['niI'] = 'NORMAL i',
+			['niR'] = 'NORMAL r',
+			['niV'] = 'NORMAL v',
+			['nt']  = 'NORMAL T',
+			['ntT'] = 'NORMAL T (TUI)',
+
+			['v']   = 'VISUAL',
+			['V']   = 'V-LINE',
+			['']   = 'V-BLOCK',
+
+			['s']   = 'SELECT',
+			['S']   = 'S-LINE',
+			['']   = 'S-BLOCK',
+
+			['i']   = 'INSERT',
+			['ic']  = 'INSERT c',
+			['ix']  = 'INSERT x',
+
+			['R']   = 'REPLACE',
+			['Rc']  = 'REPLACE c',
+			['Rx']  = 'REPLACE x',
+			['Rv']  = 'V-REPLACE',
+			['Rvc'] = 'V-REPLACE c',
+			['Rvx'] = 'V-REPLACE x',
+
+			['c']   = 'COMMAND',
+			['cv']  = 'EX',
+			['ce']  = 'EX-NORMAL',
+
+			['r']   = 'HIT-ENTER',
+			['rm']  = 'MORE',
+			['r?']  = 'CONFIRM',
+
+			['t']   = 'TERMINAL',
 		}
 
 		local current_mode = vim.fn.mode()
@@ -77,9 +106,21 @@ ins_left {
 	padding = { left = 1 },
 }
 
+-- ins_left {
+-- 	function()
+-- 		local full_path = vim.fn.expand('%:p')
+-- 		full_path = full_path:gsub(vim.env.HOME, "~")
+-- 		if vim.bo.modified then
+-- 			return full_path .. " [+]"
+-- 		end
+-- 		return full_path
+-- 	end,
+-- 	cond = conditions.buffer_not_empty,
+-- }
+
 ins_left {
 	function()
-		local full_path = vim.fn.expand('%:p')
+		local full_path = vim.fn.expand('%:.')
 		full_path = full_path:gsub(vim.env.HOME, "~")
 		if vim.bo.modified then
 			return full_path .. " [+]"

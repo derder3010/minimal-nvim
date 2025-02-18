@@ -1,10 +1,5 @@
 return {
 	{
-		'stevearc/conform.nvim',
-		event = 'BufWritePre',
-		opts = {},
-	},
-	{
 		'saecki/crates.nvim',
 		tag = 'stable',
 		config = function()
@@ -35,8 +30,8 @@ return {
 		config = function()
 			-- Tạo bảng map key cho vim-visual-multi
 			vim.g.VM_maps = {
-				['Find Under'] = '<C-d>',                 -- Thay thế cho C-n
-				['Find Subword Under'] = '<C-d>',         -- Thay thế cho visual C-n
+				['Find Under'] = '<C-d>',     -- Thay thế cho C-n
+				['Find Subword Under'] = '<C-d>', -- Thay thế cho visual C-n
 			}
 		end
 	}
